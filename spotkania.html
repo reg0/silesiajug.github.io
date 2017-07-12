@@ -53,7 +53,7 @@
           </p>
 
           <h3>Spotkania za nami</h3>
-          <ul>
+          <ul id="events">
             <li><h4>2017</h4>
               <ul>
                 <li>Z pamiętnika programisty, czyli tam i z powrotem - Paweł Młynarczyk - 30.06.2017 - <a href="https://www.slideshare.net/PaweMynarczyk/programmers-journal-silesia-jug-17">slajdy z prezentacji</a>, <a href="https://recordings.join.me/mi0mY2qEmkKIC8vWhXqTSg">nagranie z prezentacji</a></li>
@@ -124,8 +124,18 @@
 
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="assets/js/ie10-viewport-bug-workaround.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>
     <script src="assets/js/common.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="assets/js/meetup-api/client.js"></script>
+    <script src="assets/js/meetup-api/exec.js"></script>
+    <script type="text/javascript">
+        loadMeetups($('#events'), function(event) {
+            return '' +
+                event.name.replace(/^S(ilesia )?JUG \#[0-9]+ - /, '') + ' - ' + 
+                event.date.toISOString().slice(0, 10).split('-').reverse().join('.') + ' - ' + 
+                '<a href="' + event.link + '">wydarzenie na meetupie</a>';
+        });
+    </script>
   </body>
 </html>
