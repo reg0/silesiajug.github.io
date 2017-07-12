@@ -130,14 +130,17 @@
     <script src="assets/js/bootstrap.min.js"></script>
     <script src="assets/js/common.js"></script>
     <script src="assets/js/meetup-api/client.js"></script>
+    <script src="assets/js/meetup-api/extras.js"></script>
     <script src="assets/js/meetup-api/exec.js"></script>
     <script type="text/javascript">
         loadMeetups($('#events'), function(event) {
             return '' +
-                event.name.replace(/^S(ilesia )?JUG \#[0-9]+ - /, '') + ' - ' + 
+                event.name.replace(/^S(ilesia )?JUG \#[0-9]+ - /, '') + ' - ' +
+                (event.author ? event.author + ' - ' : '') + 
                 event.date.toISOString().slice(0, 10).split('-').reverse().join('.') + ' - ' + 
-                '<a href="' + event.link + '">wydarzenie na meetupie</a>';
-        });
+                '<a href="' + event.link + '">wydarzenie na meetupie</a>' +
+                (event.furtherLinks ? ', ' + event.furtherLinks : '');
+        }, extraInformations);
     </script>
   </body>
 </html>

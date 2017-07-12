@@ -15,7 +15,7 @@ function MeetupApi() {
         makeApiCall(
             '/Silesia-JUG/events', 
             'GET', 
-            {status: 'past,upcoming', desc: true, only: 'name,time,link', page: 200},
+            {status: 'past', desc: true, only: 'name,time,link,id', page: 200},
             callback
         );
     };

@@ -1,8 +1,7 @@
 function ParsedEvents(rawEvents) {
     var groupByYears = function() {    
         var withDates = rawEvents.map(function(rawEvent) {
-            var date = new Date(rawEvent.time);
-            return {date: date, name: rawEvent.name, link: rawEvent.link}
+            return {date: new Date(rawEvent.time), id: rawEvent.id, name: rawEvent.name, link: rawEvent.link}
         });
         
         return withDates.reduce(function(result, cur){
@@ -19,13 +18,15 @@ function ParsedEvents(rawEvents) {
     return {groupByYears: groupByYears};
 }
 
-var loadMeetups = function(target, eventToListItemFn) {
+var loadMeetups = function(target, eventToListItemFn, extraInformation) {
     new MeetupApi().getEvents(function(responseJson) {
         var groupedByYears = new ParsedEvents(responseJson.data).groupByYears();
         var resultHtml = '';
         for (var year of Object.keys(groupedByYears).sort().reverse()) {
             resultHtml += '<li><h4>' + year + '</h4><ul>';
-            groupedByYears[year].forEach(function(it) { resultHtml += '<li>' + eventToListItemFn(it) + '</li>'; });
+            groupedByYears[year].forEach(function(it) { 
+                resultHtml += '<li>' + eventToListItemFn(Object.assign({}, it, extraInformation[it.id])) + '</li>'; 
+            });
             resultHtml += '</ul></li>';
         }
         $(target).prepend(resultHtml);
