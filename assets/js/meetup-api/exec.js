@@ -22,13 +22,13 @@ var loadMeetups = function(target, eventToListItemFn, extraInformation) {
     new MeetupApi().getEvents(function(responseJson) {
         var groupedByYears = new ParsedEvents(responseJson.data).groupByYears();
         var resultHtml = '';
-        for (var year of Object.keys(groupedByYears).sort().reverse()) {
+        Object.keys(groupedByYears).sort().reverse().forEach(function(year) {
             resultHtml += '<li><h4>' + year + '</h4><ul>';
             groupedByYears[year].forEach(function(it) { 
                 resultHtml += '<li>' + eventToListItemFn(Object.assign({}, it, extraInformation[it.id])) + '</li>'; 
             });
             resultHtml += '</ul></li>';
-        }
+        });
         $(target).prepend(resultHtml);
     });
 };
